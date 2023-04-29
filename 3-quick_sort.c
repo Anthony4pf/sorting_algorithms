@@ -27,7 +27,7 @@ void swap(int *array, size_t size, int *a, int *b)
 *Return: position of the pivot
 */
 
-size_t lomuto_partition(int *array, size_t size, int low, int high)
+size_t lomuto_partition(int *array, size_t size, ssize_t low, ssize_t high)
 {
 	int pivot, current_index;
 	int i;
@@ -56,7 +56,7 @@ size_t lomuto_partition(int *array, size_t size, int low, int high)
 *Return: void
 */
 
-void quicksort(int *array, size_t size, int low, int high)
+void quicksort(int *array, size_t size, ssize_t low, ssize_t high)
 {
 	size_t pos;
 
