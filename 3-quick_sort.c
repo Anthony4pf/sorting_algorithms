@@ -1,55 +1,71 @@
 #include "sort.h"
 
 
-/**lomuto_partition - partition an array around a pivot
+/**
+*swap - sawp two elements of an array
+*@array: array
+*@size: size of the array
+*@a: first element
+*@b: second element
+*Return: void
+*/
+
+void swap(int *array, size_t size, int *a, int *b)
+{
+	int temp = *a;
+	*a = *b;
+	*b = temp;
+	print_array((const int *)array, size);
+}
+
+/**
+*lomuto_partition - partition an array around a pivot
 *@array: array to be partitioned
-*@lb: lowerbound of the array
-*@ub: upperbound of the arrat
+*@size: size of the array
+*@low: lowerbound of the array
+*@high: upperbound of the arrat
 *Return: position of the pivot
 */
 
-size_t lomuto_partition(int *array, size_t lb, size_t ub)
+size_t lomuto_partition(int *array, size_t size, int low, int high)
 {
 	int pivot, current_index;
-	int temp, i = 0;
+	int i;
 
-	pivot = array[ub];
-	current_index = array[lb];
+	pivot = array[high];
+	current_index = low;
 
-	for (i = current_index; i < ub; i++)
+	for (i = low; i < high; i++)
 	{
 		if (array[i] <= pivot)
 		{
-			temp = array[i];
-			array[i] = array[current_index];
-			array[current_index] = temp;
-			current_index++;			
+			swap(array, size, &array[i], &array[current_index]);
+			current_index++;
 		}
 	}
-	temp = array[ub];
-	array[ub] = array[current_index];
-	array[current_index] = temp;
-
-	return current_index;
+	swap(array, size, &array[current_index], &array[high]);
+	return (current_index);
 }
 
-/**quicksort - sort an array using quick sort
-*@array - array to be sorted
-*@lb: lowerbound of the array
-*@ub: upperbound of the array
-*@Return: void
+/**
+*quicksort - sort an array using quick sort
+*@array: array to be sorted
+*@size: size of the array
+*@low: lowerbound of the array
+*@high: upperbound of the array
+*Return: void
 */
 
-void quicksort(int *array, size_t lb, size_t ub)
+void quicksort(int *array, size_t size, int low, int high)
 {
-	size_t loc;
+	size_t pos;
 
-	if (lb < ub)
+	if (low < high)
 	{
-		loc = lomuto_partition(array, lb, ub);
+		pos = lomuto_partition(array, size, low, high);
 
-		quicksort(array, lb, loc - 1);
-		quicksort(array, loc + 1, ub);
+		quicksort(array, size, low, pos - 1);
+		quicksort(array, size, pos + 1, high);
 	}
 }
 
@@ -66,5 +82,5 @@ void quick_sort(int *array, size_t size)
 	if (!array || !size)
 		return;
 
-	quicksort(array, 0, size - 1);
+	quicksort(array, size, 0, size - 1);
 }
